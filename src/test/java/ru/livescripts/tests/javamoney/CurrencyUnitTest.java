@@ -13,21 +13,52 @@ import java.util.*;
 public class CurrencyUnitTest {
 
     @Test
-    public void testGetAllAvailableCurrencies() {
+    public void testGetCurrencyProviderNames() {
         Set<String> currencyProviderNames = Monetary.getCurrencyProviderNames();
-        System.out.println(currencyProviderNames);
-        Collection<CurrencyUnit> currencies = Monetary.getCurrencies(currencyProviderNames.toArray(new String[currencyProviderNames.size()]));
-        System.out.println(currencies.size());
-        System.out.println(currencies);
+        Assert.assertNotNull(currencyProviderNames);
+        Assert.assertFalse(currencyProviderNames.isEmpty());
 
+        printCurrencyProviderNames(currencyProviderNames);
+    }
+
+    private void printCurrencyProviderNames(Set<String> currencyProviderNames) {
+        System.out.println("Available currency providers: ");
+        currencyProviderNames.forEach(System.out::println);
+        printEndSeparator();
+    }
+
+    @Test
+    public void testGetAllAvailableCurrencies() {
         Collection<CurrencyUnit> currenciesByDefaultProvider = Monetary.getCurrencies("default");
-        System.out.println(currenciesByDefaultProvider.size());
+        Assert.assertNotNull(currenciesByDefaultProvider);
+        Assert.assertFalse(currenciesByDefaultProvider.isEmpty());
 
-        Locale ruLocale = new Locale.Builder().setLanguage("ru").setRegion("RU").build();
-        CurrencyUnit ruCurrencyUnit = Monetary.getCurrency(ruLocale);
-        System.out.format("%s, %s", ruCurrencyUnit.toString(), Currency.getInstance(ruCurrencyUnit.getCurrencyCode()).getDisplayName(ruLocale));
+        printAvailableCurrencies(currenciesByDefaultProvider);
+    }
 
-        Assert.assertTrue(currencies.contains(ruCurrencyUnit));
+    private void printAvailableCurrencies(Collection<CurrencyUnit> currencies) {
+        System.out.format("Available currencies (total: %d): \n", currencies.size());
+        int i = 1;
+        for (CurrencyUnit currencyUnit : currencies) {
+            System.out.print(currencyUnit.getCurrencyCode() + ", ");
+            if (i % 10 == 0) {
+                System.out.println();
+            }
+            i++;
+        }
+        System.out.println();
+        printEndSeparator();
+    }
+
+    private void printEndSeparator() {
+        System.out.println(String.join("", Collections.nCopies(30, "=")));
+    }
+
+    @Test
+    public void testRuCurrencyIsProvided() {
+        Locale ruLocale = new Locale("ru","RU");
+        Assert.assertTrue(Monetary.isCurrencyAvailable(ruLocale, "default"));
+        Assert.assertTrue(Monetary.isCurrencyAvailable("RUB", "default"));
     }
 
 }
