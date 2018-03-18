@@ -7,16 +7,21 @@ import javax.money.CurrencyUnit;
 import javax.money.Monetary;
 import java.util.*;
 
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+
 //http://www.baeldung.com/java-money-and-currency
 //https://www.mscharhag.com/java/java-jsr-354-money-and-currency-api
 
 public class CurrencyUnitTest {
+    public static final String PROVIDER_NAME_DEFAULT = "default";
 
     @Test
     public void testGetCurrencyProviderNames() {
         Set<String> currencyProviderNames = Monetary.getCurrencyProviderNames();
-        Assert.assertNotNull(currencyProviderNames);
-        Assert.assertFalse(currencyProviderNames.isEmpty());
+        assertNotNull(currencyProviderNames);
+        assertFalse(currencyProviderNames.isEmpty());
 
         printCurrencyProviderNames(currencyProviderNames);
     }
@@ -29,9 +34,9 @@ public class CurrencyUnitTest {
 
     @Test
     public void testGetAllAvailableCurrencies() {
-        Collection<CurrencyUnit> currenciesByDefaultProvider = Monetary.getCurrencies("default");
-        Assert.assertNotNull(currenciesByDefaultProvider);
-        Assert.assertFalse(currenciesByDefaultProvider.isEmpty());
+        Collection<CurrencyUnit> currenciesByDefaultProvider = Monetary.getCurrencies(PROVIDER_NAME_DEFAULT);
+        assertNotNull(currenciesByDefaultProvider);
+        assertFalse(currenciesByDefaultProvider.isEmpty());
 
         printAvailableCurrencies(currenciesByDefaultProvider);
     }
@@ -57,8 +62,8 @@ public class CurrencyUnitTest {
     @Test
     public void testRuCurrencyIsProvided() {
         Locale ruLocale = new Locale("ru","RU");
-        Assert.assertTrue(Monetary.isCurrencyAvailable(ruLocale, "default"));
-        Assert.assertTrue(Monetary.isCurrencyAvailable("RUB", "default"));
+        assertTrue(Monetary.isCurrencyAvailable(ruLocale, PROVIDER_NAME_DEFAULT));
+        assertTrue(Monetary.isCurrencyAvailable("RUB", PROVIDER_NAME_DEFAULT));
     }
 
 }
