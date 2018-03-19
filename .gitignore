@@ -3,3 +3,4 @@
 .resourceCache
 gradle
 out
+data

@@ -22,11 +22,15 @@ repositories {
 	mavenCentral()
 }
 
+def javamoney_version = '1.0'
+def jacksonDatatypeMoney_version = '1.0.0'
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile group: 'org.javamoney', name: 'moneta', version: '1.0'
+	compile group: 'org.javamoney', name: 'moneta', version: javamoney_version
+    //https://github.com/zalando/jackson-datatype-money
+	compile group: 'org.zalando', name: 'jackson-datatype-money', version: jacksonDatatypeMoney_version
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('org.hsqldb:hsqldb')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
