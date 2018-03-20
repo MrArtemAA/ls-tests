@@ -1,11 +1,13 @@
 package ru.livescripts.tests.javamoney;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import javax.money.CurrencyUnit;
 import javax.money.Monetary;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Set;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -15,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 //https://www.mscharhag.com/java/java-jsr-354-money-and-currency-api
 
 public class CurrencyUnitTest {
-    public static final String PROVIDER_NAME_DEFAULT = "default";
+    private static final String PROVIDER_NAME_DEFAULT = "default";
 
     @Test
     public void testGetCurrencyProviderNames() {
